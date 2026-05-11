@@ -25,7 +25,7 @@ export default async function HomePage() {
   const { data: posts } = await supabase
     .from("posts")
     .select("id, title, body, created_at")
-    .eq("status", "open")
+    .eq("is_open", true)
     .order("created_at", { ascending: false });
 
   return (

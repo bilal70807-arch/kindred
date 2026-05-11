@@ -30,7 +30,7 @@ export default function NewPostPage() {
       title,
       body,
       user_id: user.id,
-      status: "open",
+      is_open: true,
     });
 
     if (error) {
