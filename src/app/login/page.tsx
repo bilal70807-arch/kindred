@@ -31,11 +31,11 @@ export default function LoginPage() {
     } else if (tab === "signup") {
       const { error } = await supabase.auth.signUp({ email, password });
       if (error) setError(error.message);
-      else setSubmitted(true);
+      else { router.refresh(); router.push("/dashboard"); }
     } else {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) setError(error.message);
-      else router.push("/dashboard");
+      else { router.refresh(); router.push("/dashboard"); }
     }
 
     setLoading(false);
