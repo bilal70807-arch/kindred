@@ -28,7 +28,7 @@ export default async function HomePage() {
     .order("created_at", { ascending: false });
 
   return (
-    <main className="max-w-2xl mx-auto px-4 py-10 flex-1">
+    <main className="flex-1 overflow-y-auto"><div className="max-w-2xl mx-auto px-4 py-10">
       <div className="mb-10">
         <h1 className="text-3xl font-bold text-stone-800 leading-snug">
           What's on the board
@@ -51,18 +51,17 @@ export default async function HomePage() {
       ) : (
         <div className="space-y-4">
           {(posts as Post[]).map((post) => (
-            <article
-              key={post.id}
-              className="bg-white border border-stone-100 rounded-2xl px-6 py-5 shadow-[0_1px_6px_rgba(0,0,0,0.05)] hover:shadow-[0_2px_12px_rgba(0,0,0,0.08)] transition-shadow"
-            >
-              <p className="text-stone-700 text-sm leading-relaxed line-clamp-4">
-                {post.body}
-              </p>
-              <p className="mt-4 text-xs text-stone-300">{timeAgo(post.created_at)}</p>
-            </article>
+            <Link key={post.id} href={`/posts/${post.id}`} className="block group">
+              <article className="bg-white border border-stone-100 rounded-2xl px-6 py-5 shadow-[0_1px_6px_rgba(0,0,0,0.05)] group-hover:shadow-[0_2px_12px_rgba(0,0,0,0.08)] transition-shadow">
+                <p className="text-stone-700 text-sm leading-relaxed line-clamp-4">
+                  {post.body}
+                </p>
+                <p className="mt-4 text-xs text-stone-300">{timeAgo(post.created_at)}</p>
+              </article>
+            </Link>
           ))}
         </div>
       )}
-    </main>
+    </div></main>
   );
 }
