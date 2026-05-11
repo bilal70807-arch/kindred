@@ -15,7 +15,6 @@ function timeAgo(dateStr: string): string {
 
 type Post = {
   id: string;
-  title: string;
   body: string;
   created_at: string;
 };
@@ -24,7 +23,7 @@ export default async function HomePage() {
   const supabase = await createClient();
   const { data: posts } = await supabase
     .from("posts")
-    .select("id, title, body, created_at")
+    .select("id, body, created_at")
     .eq("is_open", true)
     .order("created_at", { ascending: false });
 
@@ -56,10 +55,7 @@ export default async function HomePage() {
               key={post.id}
               className="bg-white border border-stone-100 rounded-2xl px-6 py-5 shadow-[0_1px_6px_rgba(0,0,0,0.05)] hover:shadow-[0_2px_12px_rgba(0,0,0,0.08)] transition-shadow"
             >
-              <h2 className="text-lg font-semibold text-stone-800 leading-snug">
-                {post.title}
-              </h2>
-              <p className="text-stone-500 mt-2 text-sm leading-relaxed line-clamp-3">
+              <p className="text-stone-700 text-sm leading-relaxed line-clamp-4">
                 {post.body}
               </p>
               <p className="mt-4 text-xs text-stone-300">{timeAgo(post.created_at)}</p>

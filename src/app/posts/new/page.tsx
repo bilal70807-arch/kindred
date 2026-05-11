@@ -6,7 +6,6 @@ import { createClient } from "@/lib/supabase/client";
 
 export default function NewPostPage() {
   const router = useRouter();
-  const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -26,8 +25,12 @@ export default function NewPostPage() {
       return;
     }
 
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .upsert({ id: user.id, username: user.email }, { onConflict: "id" });
+    if (profileError) console.error("Profile upsert failed:", profileError);
+
     const { error } = await supabase.from("posts").insert({
-      title,
       body,
       user_id: user.id,
       is_open: true,
@@ -52,21 +55,6 @@ export default function NewPostPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        <div>
-          <label className="block text-sm font-medium text-stone-600 mb-1.5">
-            The one-liner
-          </label>
-          <input
-            type="text"
-            placeholder="e.g. Sourdough loaves for guitar lessons"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            maxLength={120}
-            className="w-full bg-white border border-stone-200 rounded-xl px-4 py-3 text-stone-800 placeholder:text-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-400 transition"
-          />
-        </div>
-
         <div>
           <label className="block text-sm font-medium text-stone-600 mb-1.5">
             Tell the story
