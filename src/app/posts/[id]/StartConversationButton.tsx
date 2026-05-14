@@ -33,6 +33,11 @@ export default function StartConversationButton({ postId, posterId, existingConv
       return;
     }
 
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .upsert({ id: user.id, username: user.email }, { onConflict: "id" });
+    if (profileError) console.error("Profile upsert failed:", profileError);
+
     const { data, error: insertError } = await supabase
       .from("conversations")
       .insert({ post_id: postId, poster_id: posterId, trader_id: user.id })
