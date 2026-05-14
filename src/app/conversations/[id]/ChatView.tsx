@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import ThanksPrompt from "./ThanksPrompt";
 
 type Message = { id: string; body: string; sender_id: string; created_at: string };
 type Conversation = {
@@ -152,9 +153,12 @@ export default function ChatView({ conversation: initial, initialMessages, curre
           </button>
         </form>
       ) : (
-        <div className="shrink-0 border-t border-stone-100 px-4 py-4 text-center">
-          <p className="text-sm text-stone-400">The deal is done. Good trading!</p>
-        </div>
+        <ThanksPrompt
+          conversationId={conv.id}
+          currentUserId={currentUserId}
+          toUserId={otherId}
+          toName={otherName}
+        />
       )}
     </div>
   );

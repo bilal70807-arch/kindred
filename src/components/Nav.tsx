@@ -19,6 +19,12 @@ export default async function Nav() {
           {user ? (
             <>
               <Link
+                href={`/profile/${user.id}`}
+                className="text-sm text-stone-400 hover:text-stone-700 transition-colors"
+              >
+                my wall
+              </Link>
+              <Link
                 href="/posts/new"
                 className="bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium px-4 py-2 rounded-full transition-colors"
               >
