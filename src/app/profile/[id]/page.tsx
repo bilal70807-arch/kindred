@@ -16,11 +16,11 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
 
   const { data: thanksList } = await supabase
     .from("thanks")
-    .select("id, body, created_at, from_user_id")
-    .eq("to_user_id", id)
+    .select("id, body, created_at, author_id")
+    .eq("recipient_id", id)
     .order("created_at", { ascending: false });
 
-  const fromIds = [...new Set((thanksList ?? []).map((t) => t.from_user_id))];
+  const fromIds = [...new Set((thanksList ?? []).map((t) => t.author_id))];
   const { data: senders } =
     fromIds.length > 0
       ? await supabase.from("profiles").select("id, username").in("id", fromIds)
@@ -59,7 +59,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
 
         <div className="space-y-5">
           {(thanksList ?? []).map((thank) => {
-            const fromName = senderMap[thank.from_user_id] ?? "someone";
+            const fromName = senderMap[thank.author_id] ?? "someone";
             return (
               <article
                 key={thank.id}

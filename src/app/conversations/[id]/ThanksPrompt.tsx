@@ -24,7 +24,7 @@ export default function ThanksPrompt({ conversationId, currentUserId, toUserId, 
       .from("thanks")
       .select("id")
       .eq("conversation_id", conversationId)
-      .eq("from_user_id", currentUserId)
+      .eq("author_id", currentUserId)
       .maybeSingle()
       .then(({ data }) => {
         setAlreadySent(!!data);
@@ -40,8 +40,8 @@ export default function ThanksPrompt({ conversationId, currentUserId, toUserId, 
     const supabase = createClient();
     const { error: insertError } = await supabase.from("thanks").insert({
       conversation_id: conversationId,
-      from_user_id: currentUserId,
-      to_user_id: toUserId,
+      author_id: currentUserId,
+      recipient_id: toUserId,
       body: body.trim(),
     });
     if (insertError) {
